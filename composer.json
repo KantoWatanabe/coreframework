@@ -1,0 +1,10 @@
+{
+    "name": "KantoWatanabe/coreframework",
+    "description": "Simple and Minimal Framework.",
+    "require": {
+    },
+    "autoload": {
+        "psr-4": {
+        }
+    }
+}
