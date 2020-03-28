@@ -79,9 +79,9 @@ final class Log
             ob_end_clean();
         }
         $tarray = explode('.', microtime(true));
-        //$trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 3);
-        //$log = sprintf('[%s.%s][%s][%s][%s::%s]%s', date('Y-m-d H:i:s', $tarray[0]), $tarray[1], getmypid(), $log_level, $trace[2]['class'], $trace[2]['function'], $msg);
-        $log = sprintf('[%s.%s][%s][%s]%s', date('Y-m-d H:i:s', $tarray[0]), $tarray[1], getmypid(), $log_level, $msg);
+        $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 3);
+        $log = sprintf('[%s.%s][%s][%s][%s::%s]%s', date('Y-m-d H:i:s', $tarray[0]), $tarray[1], getmypid(), $log_level, $trace[2]['class'], $trace[2]['function'], $msg);
+        //$log = sprintf('[%s.%s][%s][%s]%s', date('Y-m-d H:i:s', $tarray[0]), $tarray[1], getmypid(), $log_level, $msg);
         file_put_contents($logfile, $log, FILE_APPEND);
     }
 }
