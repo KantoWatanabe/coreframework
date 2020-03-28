@@ -48,5 +48,5 @@ if (Config::get('app_debug') === true) {
     ini_set('display_errors', 0);
     error_reporting(0);
 }
-date_default_timezone_set('Asia/Tokyo');
-mb_internal_encoding("UTF-8");
+date_default_timezone_set(Config::get('date_default_timezone_set'));
+mb_internal_encoding(Config::get('mb_internal_encoding'));

@@ -21,6 +21,8 @@ final class Config
                 throw new \Exception('Unable to find config file -> ' . $configfile);
             }
             self::$config = require $configfile;
+            $commonConfig = require __DIR__ . '/../../config/config-common.php';
+            self::$config = array_merge(self::$config, $commonConfig);
         }
     }
 
