@@ -5,8 +5,21 @@ class Application
 {    
     /**
      * @var string
+     */   
+    private $basePath = '';
+    /**
+     * @var string
      */
     private $defaultController = 'Index';
+
+    /**
+     * @param string $basePath ex. 'mybasepath/'
+     * @return void
+     */
+    public function setBasePath($basePath)
+    {
+        $this->basePath = $basePath;
+    }
 
     /**
      * @param string $defaultController
@@ -30,6 +43,10 @@ class Application
         }
         $path = rawurldecode($path);
         $path = trim($path, '/');
+
+        if (!empty($this->basePath) && strpos($path, $this->basePath) === 0) {
+            $path = substr($path, strlen($this->basePath));
+        }
     
         $parray = explode('/', $path);
     
