@@ -15,13 +15,14 @@ final class Config
     public static function create($env = null)
     {
         if (!self::$config) {
+            $configdir = __DIR__ . '/../../config/';
             $env = ($env === null) ? '' : ('-' . $env);
-            $configfile = __DIR__ . sprintf('/../../config/config%s.php', $env);
+            $configfile = $configdir . sprintf('config%s.php', $env);
             if (!file_exists($configfile)) {
                 throw new \Exception('Unable to find config file -> ' . $configfile);
             }
             self::$config = require $configfile;
-            $commonConfig = require __DIR__ . '/../../config/config-common.php';
+            $commonConfig = require $configdir . 'config-common.php';
             self::$config = array_merge(self::$config, $commonConfig);
         }
     }
