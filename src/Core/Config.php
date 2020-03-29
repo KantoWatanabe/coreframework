@@ -28,15 +28,13 @@ final class Config
     }
 
     /**
-     * @param string $key1
-     * @param string|null $key2
+     * @param string|null $key
      * @return mixed
      */ 
-    public static function get($key1, $key2 = null)
+    public static function get($key = null)
     {
-        if (!isset(self::$config[$key1])) return null;
-        if ($key2 === null) return self::$config[$key1];
-        if (!isset(self::$config[$key1][$key2])) return null;
-        return self::$config[$key1][$key2];
+        if ($key === null) return self::$config;
+        if (!isset(self::$config[$key])) return null;
+        return self::$config[$key];
     }
 }
