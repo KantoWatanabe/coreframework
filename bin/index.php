@@ -2,4 +2,4 @@
 require_once(__DIR__ . '/../src/bootstrap.php');
 
 $app = new App\Core\Application();
-$app->run();
+$app->runCmd($argv);
