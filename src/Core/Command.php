@@ -46,7 +46,7 @@ abstract class Command
             }
         }
 
-        $lockfile = __DIR__ . '/../../tmp/' . $this->commandName() . '.lock';
+        $lockfile = __DIR__ . '/../../bin/' . $this->commandName() . '.lock';
         if (file_exists($lockfile)) {
             Log::error('Process is running!');
             exit(1);
