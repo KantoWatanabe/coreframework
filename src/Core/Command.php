@@ -6,6 +6,10 @@ use App\Core\Log;
 abstract class Command
 {
     /**
+     * @var string
+     */ 
+    protected $command;
+    /**
      * @var array
      */
     protected $args = [];
@@ -17,34 +21,20 @@ abstract class Command
     /**
      * @return void
      */
-    public function __construct()
-    {
-        Log::init($this->commandName());
-    }
-
-    /**
-     * @return void
-     */
     abstract protected function exec();
     
     /**
-     * @var array $argv
+     * @var string $command
+     * @var array $args
+     * @var array $opts
      * @return void
      */
-    public function main($argv)
+    public function main($command, $args, $opts)
     {
-
-        foreach ($argv as $key => $value) {
-            if ($key > 1 && isset($value)) {
-                if (preg_match('/^--[a-zA-Z0-9]+=[a-zA-Z0-9]+$/', $value)) {
-                    $params = explode('=', $value);
-                    $name = str_replace('--', '', $params[0]);
-                    $this->opts[$name] = $params[1];
-                } else {
-                    $this->args[] = $value;
-                }
-            }
-        }
+        $this->command = $command;
+        $this->args = $args;
+        $this->opts = $opts;
+        Log::init($this->commandName());
 
         $lockfile = __DIR__ . '/../../bin/' . $this->commandName() . '.lock';
         if (file_exists($lockfile)) {
@@ -53,14 +43,14 @@ abstract class Command
         }
         touch($lockfile);
 
-        Log::info('[START]');
+        Log::info(sprintf('[START]%s', $this->command));
         try {
             $this->exec();
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             $this->handleError($e);
         }
-        Log::info('[END]');
+        Log::info(sprintf('[END]%s', $this->command));
 
         unlink($lockfile);
     }
@@ -70,7 +60,7 @@ abstract class Command
      */
     protected function commandName()
     {
-        $namespace = explode('\\', get_class($this));
+        $namespace = explode('\\', $this->command);
         return lcfirst(end($namespace));
     }
 

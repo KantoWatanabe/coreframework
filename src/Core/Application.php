@@ -86,6 +86,21 @@ class Application
         }
         
         $class = new $namespace();
-        $class->main($argv);
+
+        $args = [];
+        $opts = [];
+        foreach ($argv as $key => $value) {
+            if ($key > 1 && isset($value)) {
+                if (preg_match('/^--[a-zA-Z0-9]+=[a-zA-Z0-9]+$/', $value)) {
+                    $params = explode('=', $value);
+                    $name = str_replace('--', '', $params[0]);
+                    $opts[$name] = $params[1];
+                } else {
+                    $args[] = $value;
+                }
+            }
+        }
+
+        $class->main($conmmand, $args, $opts);
     }
 }

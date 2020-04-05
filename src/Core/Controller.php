@@ -17,14 +17,6 @@ abstract class Controller
     /**
      * @return void
      */
-    public function __construct()
-    {
-        Log::init($this->moduleName());
-    }
-
-    /**
-     * @return void
-     */
     abstract protected function action();
 
     /**
@@ -36,6 +28,7 @@ abstract class Controller
     {
         $this->controller = $controller;
         $this->args = $args;
+        Log::init($this->moduleName());
 
         Log::info(sprintf('[START][%s]%s', $this->getMethod(), $this->controller));
         try {
