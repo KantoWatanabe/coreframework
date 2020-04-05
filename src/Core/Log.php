@@ -11,20 +11,20 @@ final class Log
     /**
      * @var string
      */
-    private static $log_filename = 'app';
+    private static $logName = 'app';
 
     /**
-     * @param string
+     * @param string $logName
      * @return void
      */
-    public static function init($log_filename)
+    public static function init($logName)
     {
-        self::$log_filename = $log_filename;
+        self::$logName = $logName;
     }
 
     /**
      * @param string $msg
-     * @param mixed
+     * @param mixed $obj
      * @return void
      */
     public static function debug($msg, $obj = null)
@@ -34,7 +34,7 @@ final class Log
 
     /**
      * @param string $msg
-     * @param mixed
+     * @param mixed $obj
      * @return void
      */
     public static function info($msg, $obj = null)
@@ -44,7 +44,7 @@ final class Log
 
     /**
      * @param string $msg
-     * @param mixed
+     * @param mixed $obj
      * @return void
      */
     public static function warn($msg, $obj = null)
@@ -54,7 +54,7 @@ final class Log
 
     /**
      * @param string $msg
-     * @param mixed
+     * @param mixed $obj
      * @return void
      */
     public static function error($msg, $obj = null)
@@ -63,14 +63,14 @@ final class Log
     }
 
     /**
-     * @param string $log_level
+     * @param string $logLevel
      * @param string $msg
-     * @param mixed
+     * @param mixed $obj
      * @return void
      */
-    private static function write($log_level, $msg, $obj)
+    private static function write($logLevel, $msg, $obj)
     {
-        $logfile = __DIR__ . '/../../logs/' . self::$log_filename . '-' . date("Y-m-d") . '.log';
+        $logfile = __DIR__ . '/../../logs/' . self::$logName . '-' . date("Y-m-d") . '.log';
         $msg .= PHP_EOL;
         if ($obj !== null) {
             ob_start();
@@ -81,8 +81,8 @@ final class Log
         $tarray = explode('.', microtime(true));
         $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 3);
         $caller = isset($trace[2]['class']) ? sprintf('%s%s%s', $trace[2]['class'], $trace[2]['type'], $trace[2]['function']) : '';
-        $log = sprintf('[%s.%s][%s][%s][%s]%s', date('Y-m-d H:i:s', $tarray[0]), $tarray[1], getmypid(), $log_level, $caller, $msg);
-        //$log = sprintf('[%s.%s][%s][%s]%s', date('Y-m-d H:i:s', $tarray[0]), $tarray[1], getmypid(), $log_level, $msg);
+        $log = sprintf('[%s.%s][%s][%s][%s]%s', date('Y-m-d H:i:s', $tarray[0]), $tarray[1], getmypid(), $logLevel, $caller, $msg);
+        //$log = sprintf('[%s.%s][%s][%s]%s', date('Y-m-d H:i:s', $tarray[0]), $tarray[1], getmypid(), $logLevel, $msg);
         file_put_contents($logfile, $log, FILE_APPEND);
     }
 }
